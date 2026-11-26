@@ -34,6 +34,8 @@ class LocalDatabase {
           'ALTER TABLE app_settings ADD COLUMN active_garden_name TEXT',
           'ALTER TABLE app_settings ADD COLUMN active_garden_invite_code TEXT',
           'ALTER TABLE watering_logs ADD COLUMN watered_by TEXT',
+          'ALTER TABLE plants ADD COLUMN cat_toxicity TEXT NOT NULL DEFAULT \'unknown\'',
+          'ALTER TABLE plants ADD COLUMN cat_toxicity_notes TEXT',
         ]) {
           try {
             await db.execute(ddl);
@@ -87,6 +89,8 @@ class LocalDatabase {
         notes TEXT,
         last_health_score REAL,
         last_health_status TEXT NOT NULL DEFAULT 'unknown',
+        cat_toxicity TEXT NOT NULL DEFAULT 'unknown',
+        cat_toxicity_notes TEXT,
         created_at TEXT NOT NULL
       )
     ''');

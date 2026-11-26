@@ -20,9 +20,12 @@ Rispondi ESCLUSIVAMENTE con un oggetto JSON valido con questa struttura esatta:
   "photo_check_interval_days": 14,
   "care_summary": "Breve guida pratica in italiano (2-3 frasi su terreno, umidità e posizionamento).",
   "initial_health_score": 8.5,
-  "initial_health_status": "healthy | attention | critical | unknown"
+  "initial_health_status": "healthy | attention | critical | unknown",
+  "cat_toxicity": "safe | mild | toxic | unknown",
+  "cat_toxicity_notes": "Breve indicazione chiara in italiano sulla sicurezza per i gatti (es. 'Tossica per i gatti: contiene ossalati di calcio, tenere fuori portata' oppure 'Sicura e non tossica per i gatti')."
 }
 Se non è stata fornita una foto, imposta initial_health_score a null e initial_health_status a "unknown".
+Valuta sempre con precisione ASPCA la tossicità per i gatti in base alla specie identificata.
 Non aggiungere markdown o testo fuori dal JSON.
 ''';
 
@@ -82,6 +85,8 @@ Regole:
           .clamp(1.0, 10.0),
       initialHealthStatus:
           HealthStatus.fromName(map['initial_health_status']?.toString()),
+      catToxicity: CatToxicity.fromName(map['cat_toxicity']?.toString()),
+      catToxicityNotes: (map['cat_toxicity_notes'] as String?)?.trim(),
     );
   }
 

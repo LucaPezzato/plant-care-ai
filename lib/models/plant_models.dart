@@ -113,6 +113,42 @@ enum HealthTrend {
   }
 }
 
+enum CatToxicity {
+  safe,
+  mild,
+  toxic,
+  unknown;
+
+  String get label => switch (this) {
+        CatToxicity.safe => 'Sicura per gatti',
+        CatToxicity.mild => 'Irritante per gatti',
+        CatToxicity.toxic => 'Tossica per gatti',
+        CatToxicity.unknown => 'Non verificata',
+      };
+
+  String get shortLabel => switch (this) {
+        CatToxicity.safe => 'Sicura gatti',
+        CatToxicity.mild => 'Irritante gatti',
+        CatToxicity.toxic => 'Tossica gatti',
+        CatToxicity.unknown => 'N/D',
+      };
+
+  static CatToxicity fromName(String? raw) {
+    if (raw == null) return CatToxicity.unknown;
+    final norm = raw.toLowerCase().trim();
+    if (norm == 'safe' || norm.contains('sicur') || norm.contains('non tossic')) {
+      return CatToxicity.safe;
+    }
+    if (norm == 'mild' || norm.contains('irrit') || norm.contains('liev') || norm.contains('moder')) {
+      return CatToxicity.mild;
+    }
+    if (norm == 'toxic' || norm.contains('tossic') || norm.contains('velen')) {
+      return CatToxicity.toxic;
+    }
+    return CatToxicity.unknown;
+  }
+}
+
 DateTime dateOnly(DateTime dt) => DateTime(dt.year, dt.month, dt.day);
 
 class AppSettings {
@@ -255,6 +291,8 @@ class Plant {
   final String? notes;
   final double? lastHealthScore;
   final HealthStatus lastHealthStatus;
+  final CatToxicity catToxicity;
+  final String? catToxicityNotes;
   final DateTime createdAt;
 
   const Plant({
@@ -271,6 +309,8 @@ class Plant {
     this.notes,
     this.lastHealthScore,
     this.lastHealthStatus = HealthStatus.unknown,
+    this.catToxicity = CatToxicity.unknown,
+    this.catToxicityNotes,
     required this.createdAt,
   });
 
@@ -377,6 +417,8 @@ class Plant {
     String? notes,
     double? lastHealthScore,
     HealthStatus? lastHealthStatus,
+    CatToxicity? catToxicity,
+    String? catToxicityNotes,
     DateTime? createdAt,
   }) {
     return Plant(
@@ -398,6 +440,8 @@ class Plant {
       notes: notes ?? this.notes,
       lastHealthScore: lastHealthScore ?? this.lastHealthScore,
       lastHealthStatus: lastHealthStatus ?? this.lastHealthStatus,
+      catToxicity: catToxicity ?? this.catToxicity,
+      catToxicityNotes: catToxicityNotes ?? this.catToxicityNotes,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -416,6 +460,8 @@ class Plant {
         'notes': notes,
         'last_health_score': lastHealthScore,
         'last_health_status': lastHealthStatus.name,
+        'cat_toxicity': catToxicity.name,
+        'cat_toxicity_notes': catToxicityNotes,
         'created_at': createdAt.toIso8601String(),
       };
 
@@ -439,6 +485,8 @@ class Plant {
       lastHealthScore: (map['last_health_score'] as num?)?.toDouble(),
       lastHealthStatus:
           HealthStatus.fromName(map['last_health_status'] as String?),
+      catToxicity: CatToxicity.fromName(map['cat_toxicity'] as String?),
+      catToxicityNotes: map['cat_toxicity_notes'] as String?,
       createdAt: DateTime.tryParse((map['created_at'] as String?) ?? '') ??
           DateTime.now(),
     );
@@ -598,6 +646,8 @@ class AiPlantIdentification {
   final String careSummary;
   final double? initialHealthScore;
   final HealthStatus initialHealthStatus;
+  final CatToxicity catToxicity;
+  final String? catToxicityNotes;
 
   const AiPlantIdentification({
     required this.commonName,
@@ -608,6 +658,8 @@ class AiPlantIdentification {
     required this.careSummary,
     this.initialHealthScore,
     this.initialHealthStatus = HealthStatus.unknown,
+    this.catToxicity = CatToxicity.unknown,
+    this.catToxicityNotes,
   });
 }
 

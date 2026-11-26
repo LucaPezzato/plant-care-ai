@@ -38,8 +38,10 @@ class _AddPlantSheetState extends State<AddPlantSheet> {
   late final TextEditingController _speciesCtrl;
   late final TextEditingController _locationCtrl;
   late final TextEditingController _notesCtrl;
+  late final TextEditingController _catNotesCtrl;
 
   late LightLevel _lightLevel;
+  late CatToxicity _catToxicity;
   late int _wateringDays;
   late int _photoDays;
 
@@ -68,7 +70,9 @@ class _AddPlantSheetState extends State<AddPlantSheet> {
     _speciesCtrl = TextEditingController(text: p?.species ?? '');
     _locationCtrl = TextEditingController(text: p?.location ?? 'Salotto');
     _notesCtrl = TextEditingController(text: p?.notes ?? '');
+    _catNotesCtrl = TextEditingController(text: p?.catToxicityNotes ?? '');
     _lightLevel = p?.lightLevel ?? LightLevel.indirect;
+    _catToxicity = p?.catToxicity ?? CatToxicity.unknown;
     _wateringDays = p?.wateringIntervalDays ?? 7;
     _photoDays = p?.photoCheckIntervalDays ?? 14;
     _existingPhotoPath = p?.coverPhotoPath;
@@ -88,6 +92,7 @@ class _AddPlantSheetState extends State<AddPlantSheet> {
     _speciesCtrl.dispose();
     _locationCtrl.dispose();
     _notesCtrl.dispose();
+    _catNotesCtrl.dispose();
     super.dispose();
   }
 
@@ -167,6 +172,10 @@ class _AddPlantSheetState extends State<AddPlantSheet> {
           _aiInitialScore = res.initialHealthScore;
           _aiInitialStatus = res.initialHealthStatus;
         }
+        _catToxicity = res.catToxicity;
+        if (res.catToxicityNotes != null && res.catToxicityNotes!.isNotEmpty) {
+          _catNotesCtrl.text = res.catToxicityNotes!;
+        }
       });
     } catch (e) {
       if (!mounted) return;
@@ -210,6 +219,10 @@ class _AddPlantSheetState extends State<AddPlantSheet> {
         lastHealthStatus: _aiInitialStatus != HealthStatus.unknown
             ? _aiInitialStatus
             : (existing?.lastHealthStatus ?? HealthStatus.unknown),
+        catToxicity: _catToxicity,
+        catToxicityNotes: _catNotesCtrl.text.trim().isEmpty
+            ? null
+            : _catNotesCtrl.text.trim(),
         createdAt: existing?.createdAt ?? DateTime.now(),
       );
 
@@ -441,6 +454,30 @@ class _AddPlantSheetState extends State<AddPlantSheet> {
               ],
               selected: {_lightLevel},
               onSelectionChanged: (s) => setState(() => _lightLevel = s.first),
+            ),
+
+            const SizedBox(height: 14),
+            Text('Sicurezza per gatti 🐱', style: tt.labelLarge),
+            const SizedBox(height: 8),
+            SegmentedButton<CatToxicity>(
+              showSelectedIcon: false,
+              segments: const [
+                ButtonSegment(value: CatToxicity.safe, label: Text('Sicura')),
+                ButtonSegment(value: CatToxicity.mild, label: Text('Irritante')),
+                ButtonSegment(value: CatToxicity.toxic, label: Text('Tossica')),
+                ButtonSegment(value: CatToxicity.unknown, label: Text('N/D')),
+              ],
+              selected: {_catToxicity},
+              onSelectionChanged: (s) => setState(() => _catToxicity = s.first),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: _catNotesCtrl,
+              textCapitalization: TextCapitalization.sentences,
+              decoration: const InputDecoration(
+                labelText: 'Dettagli tossicità gatti (compilato da AI)',
+                hintText: 'es. Contiene ossalati di calcio, tenere in alto',
+              ),
             ),
 
             const SizedBox(height: 14),

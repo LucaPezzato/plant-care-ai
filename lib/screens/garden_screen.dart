@@ -507,6 +507,17 @@ class _PlantCard extends StatelessWidget {
                                 text: plant.lightLevel.shortLabel,
                                 iconColor: bot.sunlight,
                               ),
+                              if (plant.catToxicity != CatToxicity.unknown)
+                                _MetaBadge(
+                                  icon: Symbols.pets_rounded,
+                                  text: plant.catToxicity.shortLabel,
+                                  iconColor: switch (plant.catToxicity) {
+                                    CatToxicity.safe => bot.healthy,
+                                    CatToxicity.mild => bot.attention,
+                                    CatToxicity.toxic => bot.critical,
+                                    CatToxicity.unknown => cs.onSurfaceVariant,
+                                  },
+                                ),
                               if (plant.isPhotoCheckDue)
                                 _MetaBadge(
                                   icon: Symbols.photo_camera_rounded,

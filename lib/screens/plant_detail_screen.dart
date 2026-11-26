@@ -380,6 +380,15 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
                           ),
                         ],
                       ),
+                      if (_plant.catToxicity != CatToxicity.unknown ||
+                          (_plant.catToxicityNotes != null &&
+                              _plant.catToxicityNotes!.isNotEmpty)) ...[
+                        const SizedBox(height: 10),
+                        _CatSafetyBanner(
+                          toxicity: _plant.catToxicity,
+                          notes: _plant.catToxicityNotes,
+                        ),
+                      ],
                       if (_plant.notes != null && _plant.notes!.isNotEmpty) ...[
                         const SizedBox(height: 12),
                         Container(
@@ -516,6 +525,59 @@ class _PlantDetailScreenState extends State<PlantDetailScreen> {
                   ),
               ],
             ),
+    );
+  }
+}
+
+class _CatSafetyBanner extends StatelessWidget {
+  final CatToxicity toxicity;
+  final String? notes;
+
+  const _CatSafetyBanner({required this.toxicity, this.notes});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+    final bot = context.botanical;
+
+    final accent = switch (toxicity) {
+      CatToxicity.safe => bot.healthy,
+      CatToxicity.mild => bot.attention,
+      CatToxicity.toxic => bot.critical,
+      CatToxicity.unknown => cs.onSurfaceVariant,
+    };
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: accent.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusInner),
+        border: Border.all(color: accent.withValues(alpha: 0.35)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Symbols.pets_rounded, size: 20, color: accent, fill: 1),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Gatti: ${toxicity.label}',
+                  style: tt.labelLarge?.copyWith(color: accent),
+                ),
+                if (notes != null && notes!.isNotEmpty) ...[
+                  const SizedBox(height: 3),
+                  Text(notes!, style: tt.bodyMedium),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

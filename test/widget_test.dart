@@ -75,5 +75,20 @@ void main() {
       expect(SharedGardenService.normalizeCode('k7p 4m2'), 'K7P-4M2');
       expect(SharedGardenService.normalizeCode('k7p-4m2'), 'K7P-4M2');
     });
+
+    test('serializes and parses CatToxicity on Plant', () {
+      final plant = Plant(
+        id: 'p_cat',
+        name: 'Monstera',
+        catToxicity: CatToxicity.toxic,
+        catToxicityNotes: 'Contiene ossalati di calcio insolubili.',
+        createdAt: DateTime(2026, 5, 1),
+      );
+      final restored = Plant.fromMap(plant.toMap());
+      expect(restored.catToxicity, CatToxicity.toxic);
+      expect(restored.catToxicityNotes, plant.catToxicityNotes);
+      expect(CatToxicity.fromName('safe'), CatToxicity.safe);
+      expect(CatToxicity.fromName('irritante'), CatToxicity.mild);
+    });
   });
 }
