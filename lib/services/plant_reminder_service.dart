@@ -33,7 +33,7 @@ class PlantReminderService {
     tz_data.initializeTimeZones();
     _configureLocalTimezone();
 
-    const androidInit = AndroidInitializationSettings('@drawable/ic_stat_plant');
+    const androidInit = AndroidInitializationSettings('ic_stat_plant');
     const initSettings = InitializationSettings(android: androidInit);
     await _plugin.initialize(settings: initSettings);
 
@@ -139,7 +139,7 @@ class PlantReminderService {
         channelDescription: _waterChannelDesc,
         importance: Importance.defaultImportance,
         priority: Priority.defaultPriority,
-        icon: '@drawable/ic_stat_plant',
+        icon: 'ic_stat_plant',
         color: Color(0xFF10B981),
       ),
     );
@@ -151,7 +151,7 @@ class PlantReminderService {
         channelDescription: _photoChannelDesc,
         importance: Importance.defaultImportance,
         priority: Priority.defaultPriority,
-        icon: '@drawable/ic_stat_plant',
+        icon: 'ic_stat_plant',
         color: Color(0xFF10B981),
       ),
     );
@@ -214,7 +214,7 @@ class PlantReminderService {
         channelDescription: _waterChannelDesc,
         importance: Importance.defaultImportance,
         priority: Priority.defaultPriority,
-        icon: '@drawable/ic_stat_plant',
+        icon: 'ic_stat_plant',
         color: Color(0xFF10B981),
       ),
     );

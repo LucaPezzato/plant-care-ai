@@ -1,7 +1,7 @@
 name: plant_care_ai
 description: Personal Android AI Plant Care & Health Tracker with watering calendar, local reminders, and periodic AI photo diagnostics (Gemini, OpenAI, and OpenAI-compatible APIs).
 publish_to: 'none'
-version: 0.1.2+3
+version: 0.1.3+4
 
 environment:
   sdk: '>=3.3.0 <4.0.0'

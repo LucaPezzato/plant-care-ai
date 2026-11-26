@@ -19,7 +19,9 @@ import 'theme/botanical_colors.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await PlantReminderService.instance.initialize();
+  try {
+    await PlantReminderService.instance.initialize();
+  } catch (_) {}
   runApp(const PlantCareAiApp());
 }
 
