@@ -296,7 +296,9 @@ class _HealthCheckSheetState extends State<HealthCheckSheet> {
             const SizedBox(height: 12),
             TextField(
               controller: _notesCtrl,
-              maxLines: 2,
+              minLines: 2,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
               textCapitalization: TextCapitalization.sentences,
               decoration: const InputDecoration(
                 labelText: 'Note o sintomi osservati (opzionale)',

@@ -473,6 +473,9 @@ class _AddPlantSheetState extends State<AddPlantSheet> {
             const SizedBox(height: 8),
             TextField(
               controller: _catNotesCtrl,
+              minLines: 1,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
               textCapitalization: TextCapitalization.sentences,
               decoration: const InputDecoration(
                 labelText: 'Dettagli tossicità gatti (compilato da AI)',
@@ -523,7 +526,9 @@ class _AddPlantSheetState extends State<AddPlantSheet> {
             const SizedBox(height: 8),
             TextField(
               controller: _notesCtrl,
-              maxLines: 3,
+              minLines: 3,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
               textCapitalization: TextCapitalization.sentences,
               decoration: const InputDecoration(
                 labelText: 'Note di cura',
