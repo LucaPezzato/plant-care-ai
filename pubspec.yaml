@@ -1,0 +1,50 @@
+name: plant_care_ai
+description: Personal Android AI Plant Care & Health Tracker with watering calendar, local reminders, and periodic AI photo diagnostics (Gemini, OpenAI, and OpenAI-compatible APIs).
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI, Material 3 Expressive & Fonts
+  dynamic_color: ^1.7.0
+  google_fonts: ^6.2.1
+  material_symbols_icons: ^4.2785.1
+  intl: ^0.19.0
+
+  # Offline-First Local SQLite Database
+  sqflite: ^2.4.1
+  path_provider: ^2.1.5
+  path: ^1.9.0
+  uuid: ^4.5.1
+
+  # Multi-Provider AI (Google Gemini + OpenAI / OpenAI-compatible) & Secure Keys
+  http: ^1.2.2
+  flutter_secure_storage: ^9.2.2
+
+  # Camera & Gallery for Periodic Health Photos
+  image_picker: ^1.1.2
+
+  # Local Watering & Photo Check Reminders
+  flutter_local_notifications: ^20.1.0
+  timezone: ^0.10.0
+
+  # Firebase Cloud Backup (Auth + Firestore)
+  firebase_core: ^5.1.0
+  firebase_auth: ^7.0.1
+  cloud_firestore: ^7.1.0
+  google_sign_in: ^6.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/app_icon_1024.png
