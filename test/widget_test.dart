@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plant_care_ai/models/plant_models.dart';
+import 'package:plant_care_ai/services/app_update_service.dart';
 import 'package:plant_care_ai/services/shared_garden_service.dart';
 
 void main() {
@@ -89,6 +90,13 @@ void main() {
       expect(restored.catToxicityNotes, plant.catToxicityNotes);
       expect(CatToxicity.fromName('safe'), CatToxicity.safe);
       expect(CatToxicity.fromName('irritante'), CatToxicity.mild);
+    });
+
+    test('compares semantic versions for GitHub auto-updater', () {
+      expect(AppUpdateService.isNewerVersion('v0.1.4', '0.1.3'), isTrue);
+      expect(AppUpdateService.isNewerVersion('v0.2.0', '0.1.9'), isTrue);
+      expect(AppUpdateService.isNewerVersion('v0.1.3', '0.1.3'), isFalse);
+      expect(AppUpdateService.isNewerVersion('v0.1.2', '0.1.3'), isFalse);
     });
   });
 }

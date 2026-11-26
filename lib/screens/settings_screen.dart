@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import '../models/plant_models.dart';
 import '../services/ai_plant_service.dart';
+import '../services/app_update_service.dart';
 import '../services/firebase_backup_service.dart';
 import '../services/plant_reminder_service.dart';
 import '../services/secure_keys_service.dart';
@@ -829,6 +830,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onSelectionChanged: (s) => _updateSettings(
                   _settings.copyWith(themeModeIndex: s.first),
                 ),
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 16),
+        // App Updates (GitHub Releases)
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: cs.surfaceContainerLow,
+            borderRadius: BorderRadius.circular(AppTheme.radiusCard),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Icon(Symbols.system_update_rounded, color: cs.primary),
+                  const SizedBox(width: 8),
+                  Text('Aggiornamenti App', style: tt.titleLarge),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Controlla automaticamente nuove release su GitHub e installa l\'APK direttamente dall\'app.',
+                style: tt.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
+              ),
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: () => AppUpdateService.plantCare
+                    .checkAndPrompt(context, silent: false),
+                icon: const Icon(Symbols.refresh_rounded, size: 18),
+                label: const Text('Controlla aggiornamenti'),
               ),
             ],
           ),

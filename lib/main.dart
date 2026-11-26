@@ -11,6 +11,7 @@ import 'screens/health_check_sheet.dart';
 import 'screens/plant_detail_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/splash_screen.dart';
+import 'services/app_update_service.dart';
 import 'services/firebase_backup_service.dart';
 import 'services/plant_reminder_service.dart';
 import 'services/shared_garden_service.dart';
@@ -114,6 +115,11 @@ class _MainShellScreenState extends State<MainShellScreen>
       }
     };
     _loadData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        AppUpdateService.plantCare.checkAndPrompt(context, silent: true);
+      }
+    });
   }
 
   @override
