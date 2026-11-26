@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
@@ -32,7 +33,7 @@ class PlantReminderService {
     tz_data.initializeTimeZones();
     _configureLocalTimezone();
 
-    const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidInit = AndroidInitializationSettings('@drawable/ic_stat_plant');
     const initSettings = InitializationSettings(android: androidInit);
     await _plugin.initialize(settings: initSettings);
 
@@ -138,7 +139,8 @@ class PlantReminderService {
         channelDescription: _waterChannelDesc,
         importance: Importance.defaultImportance,
         priority: Priority.defaultPriority,
-        icon: '@mipmap/ic_launcher',
+        icon: '@drawable/ic_stat_plant',
+        color: Color(0xFF10B981),
       ),
     );
 
@@ -149,7 +151,8 @@ class PlantReminderService {
         channelDescription: _photoChannelDesc,
         importance: Importance.defaultImportance,
         priority: Priority.defaultPriority,
-        icon: '@mipmap/ic_launcher',
+        icon: '@drawable/ic_stat_plant',
+        color: Color(0xFF10B981),
       ),
     );
 
@@ -211,7 +214,8 @@ class PlantReminderService {
         channelDescription: _waterChannelDesc,
         importance: Importance.defaultImportance,
         priority: Priority.defaultPriority,
-        icon: '@mipmap/ic_launcher',
+        icon: '@drawable/ic_stat_plant',
+        color: Color(0xFF10B981),
       ),
     );
     await _plugin.show(
